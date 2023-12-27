@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                    Int        @id @default(autoincrement())
+  userName              String     @db.VarChar(50)
+  password              String     @db.VarChar(200)
+  name                  String     @db.VarChar(100)
+  lastName              String     @db.VarChar(100)
+  indentificationNumber String     @db.VarChar(50)
+  email                 String     @db.VarChar(100)
+  phoneNumber           String     @db.VarChar(100)
+  branch                Branch     @relation(fields: [branchId], references: [id])
+  branchId              Int
+  package               Package[]
+  prealert              PreAlert[]
+  profilePic            Bytes?     @db.ByteA
+}
+
+model Branch {
+  id          Int     @id @default(autoincrement())
+  branchName  String  @db.VarChar(100)
+  address     String  @db.VarChar(200)
+  email       String  @db.VarChar(50)
+  phoneNumber String  @db.VarChar(20)
+  latitude    Decimal
+  longitude   Decimal
+  User        User[]
+}
+
+model Package {
+  id             Int      @id @default(autoincrement())
+  trackingNumber String   @db.VarChar(100)
+  description    String   @db.VarChar(100)
+  weight         Decimal
+  createdAt      DateTime @default(now()) @db.Date
+  courierFeed    Decimal
+
+  origin          String            @db.VarChar(100)
+  destination     String            @db.VarChar(100)
+  User            User              @relation(fields: [userId], references: [id])
+  userId          Int
+  status          PackageStatus     @relation(fields: [packageStatusId], references: [id])
+  packageStatusId Int
+  movements       PackageMovement[]
+}
+
+model PackageStatus {
+  id          Int       @id @default(autoincrement())
+  description String    @db.VarChar(100)
+  package     Package[]
+}
+
+model PackageMovement {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @db.Date
+  Package   Package  @relation(fields: [packageId], references: [id])
+  packageId Int
+}
+
+model Question {
+  id       Int    @id @default(autoincrement())
+  question String @db.VarChar(200)
+  answer   String @db.VarChar(200)
+}
+
+model PreAlert {
+  id                 Int      @id @default(autoincrement())
+  trackingNumber     String   @db.VarChar(100)
+  supplierName       String   @db.VarChar(100)
+  contentDescription String   @db.VarChar(100)
+  fob                Decimal
+  receiptDocument    String?
+  user               User     @relation(fields: [userId], references: [id])
+  userId             Int
+  createdAt          DateTime @default(now()) @db.Date
+}
