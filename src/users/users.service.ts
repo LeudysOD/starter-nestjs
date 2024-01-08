@@ -32,13 +32,17 @@ export class UsersService {
       where: userName,
     });
   }
-  async getProfilePic(userId: Number): Promise<String | null> {
+  async getProfilePic(userId: Number): Promise<ApiResponse<String> | null> {
+    var response: ApiResponse<String>;
     var user = await this.prisma.user.findFirst({
       where: {
         id: Number(userId),
       },
     });
-    return user.profilePic.toString('base64');
+    return (response = {
+      data: user.profilePic.toString('base64'),
+      success: true,
+    });
   }
   async updateProfilePic(
     userId: Number,

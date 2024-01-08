@@ -22,18 +22,16 @@ export class PreAlertsService {
         userId: filter.userId != undefined ? Number(filter.userId) : undefined,
         createdAt: {
           lte:
-            filter.startDate != undefined &&
-            filter.startDate.toString() != '' &&
-            filter.startDate != undefined &&
-            filter.endDate.toString()
-              ? new Date(filter.startDate)
+            filter.endDate != undefined &&
+            filter.endDate != null &&
+            filter.endDate != ''
+              ? new Date(filter.endDate)
               : undefined,
           gte:
             filter.startDate != undefined &&
-            filter.startDate.toString() != '' &&
-            filter.startDate != undefined &&
-            filter.endDate.toString()
-              ? new Date(filter.endDate)
+            filter.startDate != null &&
+            filter.endDate != ''
+              ? new Date(filter.startDate)
               : undefined,
         },
       },

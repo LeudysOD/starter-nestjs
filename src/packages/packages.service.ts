@@ -26,7 +26,9 @@ export class PackagesService {
     const result = await this.prisma.package.findFirstOrThrow({
       where: {
         userId: userId != undefined ? Number(4) : undefined,
-        packageStatusId: 0,
+        NOT: {
+          packageStatusId: 5,
+        },
       },
     });
 
@@ -40,9 +42,10 @@ export class PackagesService {
     var response: ApiResponse<Package[]>;
     const result = await this.prisma.package.findMany({
       where: {
+        NOT: { packageStatusId: filter.packageStatusId != 5 ? 5 : undefined },
         userId: filter.userId != undefined ? Number(filter.userId) : undefined,
         packageStatusId:
-          filter.packageStatusId != undefined
+          filter.packageStatusId == 5
             ? Number(filter.packageStatusId)
             : undefined,
         createdAt: {

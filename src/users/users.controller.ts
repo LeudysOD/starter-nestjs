@@ -38,7 +38,9 @@ export class UsersController {
   }
 
   @Get('profilePic')
-  async findByUserName(@Query('id') userId: number): Promise<String> {
+  async findByUserName(
+    @Query('id') userId: number,
+  ): Promise<ApiResponse<String>> {
     return await this.usersService.getProfilePic(userId);
   }
 

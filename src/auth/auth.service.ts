@@ -38,7 +38,7 @@ export class AuthService {
 
     const payload = { username: user.userName, sub: user.id };
     const accessToken = await this.jwtSevice.signAsync(payload, {
-      secret: "86bc83b4dfbe3ac142588ca051180efd6eaf51735f17c41a0469c963c64aa5f1",
+      secret: env.API_KEY,
       expiresIn: '2h',
     });
     return { accessToken };

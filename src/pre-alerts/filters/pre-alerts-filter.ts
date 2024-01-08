@@ -7,8 +7,8 @@ export class PreAlertFilters {
   userId?: number;
   @ApiProperty({ required: false })
   @IsOptional()
-  startDate?: Date;
+  startDate?: string;
   @ApiProperty({ required: false })
   @IsOptional()
-  endDate?: Date;
+  endDate?: string;
 }

@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { PackageStatusService } from './package-status.service';
 import { CreatePackageStatusDto } from './dto/create-package-status.dto';
 import { PackageStatus as PackageStatusDto } from '@prisma/client';
@@ -16,13 +25,22 @@ export class PackageStatusController {
 
   @UseGuards(AuthGuard)
   @Get()
-  async findAll():Promise<ApiResponse<PackageMovementDto[]>> {
+  async findAll(): Promise<ApiResponse<PackageStatusDto[]>> {
     return await this.packageStatusService.findAll();
   }
-  
+
   @UseGuards(AuthGuard)
   @Get(':id')
-  async findOne(@Param('id') id: string):Promise<ApiResponse<PackageMovementDto>> {
+  async findOne(
+    @Param('id') id: string,
+  ): Promise<ApiResponse<PackageStatusDto>> {
     return await this.packageStatusService.findOne(+id);
+  }
+
+  @Delete(':id')
+  async delete(
+    @Param('id') id: string,
+  ): Promise<ApiResponse<PackageStatusDto>> {
+    return await this.packageStatusService.delete(+id);
   }
 }

@@ -55,16 +55,19 @@ model Package {
 }
 
 model PackageStatus {
-  id          Int       @id @default(autoincrement())
-  description String    @db.VarChar(100)
+  id          Int               @id @default(autoincrement())
+  description String            @db.VarChar(100)
   package     Package[]
+  movements   PackageMovement[]
 }
 
 model PackageMovement {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now()) @db.Date
-  Package   Package  @relation(fields: [packageId], references: [id])
+  id        Int            @id @default(autoincrement())
+  createdAt DateTime       @default(now()) @db.Date
+  Package   Package        @relation(fields: [packageId], references: [id])
   packageId Int
+  Status    PackageStatus? @relation(fields: [statusId], references: [id])
+  statusId  Int?           @db.Integer
 }
 
 model Question {

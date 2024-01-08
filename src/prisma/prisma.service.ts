@@ -9,7 +9,7 @@ export class PrismaService extends PrismaClient {
     super({
       datasources: {
         db: {
-          url:  "postgresql://postgres:Vy0v67cdtR9WofkRF4QC@containers-us-west-150.railway.app:7176/railway",
+          url:  env.DATABASE_URL,
         },
       },
     });
